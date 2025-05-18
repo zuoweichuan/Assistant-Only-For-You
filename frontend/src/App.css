@@ -1,0 +1,523 @@
+/* App.css */
+
+/* 主应用容器 */
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #000;
+  position: relative;
+}
+
+/* Live2D 相关样式 */
+.app .live2d-main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app .live2d-main .live2d-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* 字幕区域样式 */
+.app .live2d-main .subtitles {
+  position: fixed;
+  left: 50%;
+  bottom: 250px;
+  transform: translateX(-50%);
+  width: 80%;
+  text-align: center;
+  z-index: 1000;
+}
+
+.app .live2d-main .subtitles .subtitle-text {
+  display: inline-block;
+  color: white;
+  padding: 12px 24px;
+  font-size: 64px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  animation: fadeIn 0.3s ease-in-out, bounce 0.5s ease-in-out;
+  
+  /* 移除原有的描边和发光效果 */
+  -webkit-text-stroke: none;
+  text-stroke: none;
+  text-shadow: none;
+  
+  /* 添加新的描边效果 */
+  -webkit-text-stroke: 2px #2FA4E7;
+  text-stroke: 2px #2FA4E7;
+  
+  /* 重新设计文字阴影效果，让它更清晰 */
+  text-shadow: 
+    /* 内层描边 */
+    -1px -1px 0 #4a9dcd,
+    1px -1px 0 #2FA4E7,
+    -1px 1px 0 #2FA4E7,
+    1px 1px 0 #2FA4E7,
+    
+    /* 外层发光效果 */
+    0 0 10px rgba(47, 164, 231, 0.8),
+    0 0 20px rgba(47, 164, 231, 0.4);
+    
+  /* 减小倾斜角度 */
+  transform: skew(-3deg);
+  
+  /* 保持原有的动画效果 */
+  animation: fadeIn 0.3s ease-in-out, bounce 0.5s ease-in-out;
+  font-family: "Comic Sans MS", "ZCOOL KuaiLe", "Varela Round", "Rubik", system-ui;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 添加弹性动画 */
+@keyframes bounce {
+  0%, 100% { transform: skew(-5deg) scale(1); }
+  50% { transform: skew(-5deg) scale(1.05); }
+}
+
+/* 聊天界面样式 */
+.app .chat-container {
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #646cff;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.app .chat-container .chat-message {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 80%;
+}
+
+.app .chat-container .chat-message.user {
+  background: rgba(100, 108, 255, 0.1);
+  margin-left: auto;
+  border: 1px solid rgba(100, 108, 255, 0.2);
+}
+
+.app .chat-container .chat-message.assistant {
+  background: rgba(255, 255, 255, 0.05);
+  margin-right: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 输入区域样式 */
+.app .chat-input-container {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20px;
+  display: flex;
+  padding: 15px;
+  z-index: 1000;
+  width: 90%;
+  max-width: 800px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.app .chat-input-container .chat-input {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 16px;
+}
+
+.app .chat-input-container .chat-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.app .chat-input-container .chat-submit-button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #646cff;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.app .chat-input-container .chat-submit-button:hover {
+  background: #535bf2;
+  transform: translateY(-2px);
+}
+
+.app .live2d-main .subtitles .subtitle-text {
+  white-space: pre-wrap; /* 保留换行符并自动换行 */
+  max-width: 80%; /* 限制最大宽度 */
+  text-align: center;
+  margin: 0 auto;
+}
+
+.loading-dots {
+  display: inline-block;
+  min-width: 30px;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; transform: scale(0.95) skew(-3deg); }
+  50% { opacity: 1; transform: scale(1.05) skew(-3deg); }
+  100% { opacity: 0.5; transform: scale(0.95) skew(-3deg); }
+}
+
+/* 文件上传区域样式 - 添加在文件末尾 */
+.file-upload-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 16px 0;
+  gap: 12px;
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 500px;
+}
+
+.file-upload-button {
+  background: rgba(100, 108, 255, 0.2);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(100, 108, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+.file-upload-button:hover {
+  background: rgba(100, 108, 255, 0.4);
+}
+
+.file-upload-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.download-button {
+  background: rgba(76, 175, 80, 0.2);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border: 1px solid rgba(76, 175, 80, 0.5);
+  font-size: 0.9rem;
+}
+
+.download-button:hover {
+  background: rgba(76, 175, 80, 0.4);
+}
+
+/* 数据可视化相关样式 */
+.visualizer-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+}
+
+.visualizer-modal-content {
+  width: 80%;
+  max-width: 900px;
+  height: 80%;
+  max-height: 700px;
+  background: rgba(30, 30, 30, 0.9);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(100, 108, 255, 0.3);
+}
+
+.visualizer-modal-content h2 {
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.close-visualizer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 0, 0, 0.2);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 2;
+}
+
+.chart-controls {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.chart-type-selector {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.data-visualizer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chart-container {
+  flex: 1;
+  min-height: 300px;
+  margin-bottom: 20px;
+}
+
+.analysis-results {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.analysis-results h3 {
+  margin-top: 0;
+  color: #2FA4E7;
+}
+
+.csv-result-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.analyze-button {
+  background: rgba(76, 175, 80, 0.2);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border: 1px solid rgba(76, 175, 80, 0.5);
+  font-size: 0.9rem;
+}
+
+.analyze-button:hover {
+  background: rgba(76, 175, 80, 0.4);
+}
+
+.analyze-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 打字机文本样式 */
+.typewriter-text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.typewriter-text .paragraph {
+  margin: 0;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.typewriter-text .new-paragraph {
+  animation: fadeInParagraph 1s ease;
+}
+
+@keyframes fadeInParagraph {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app .live2d-main .subtitles .subtitle-text {
+  display: inline-block;
+  color: white;
+  padding: 12px 24px;
+  font-size: 64px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  max-width: 80%;
+  text-align: center;
+  margin: 0 auto;
+  
+  /* 描边效果 */
+  -webkit-text-stroke: 2px #2FA4E7;
+  text-stroke: 2px #2FA4E7;
+  
+  /* 文字阴影效果 */
+  text-shadow: 
+    /* 内层描边 */
+    -1px -1px 0 #4a9dcd,
+    1px -1px 0 #2FA4E7,
+    -1px 1px 0 #2FA4E7,
+    1px 1px 0 #2FA4E7,
+    
+    /* 外层发光效果 */
+    0 0 10px rgba(47, 164, 231, 0.8),
+    0 0 20px rgba(47, 164, 231, 0.4);
+    
+  /* 倾斜角度 */
+  transform: skew(-3deg);
+  
+  /* 动画效果 */
+  animation: fadeIn 0.3s ease-in-out, bounce 0.5s ease-in-out;
+  font-family: "Comic Sans MS", "ZCOOL KuaiLe", "Varela Round", "Rubik", system-ui;
+}
+
+/* 只修改分析结果和Markdown内容的样式，不影响普通对话 */
+.analysis-results p,
+.markdown-content p {
+  color: #ffffff;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* TypewriterText样式只应用于分析结果 */
+.visualizer-modal-content .typewriter-text .paragraph {
+  color: #ffffff;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* 普通对话中的TypewriterText样式保持Live2D字幕样式 */
+.subtitles .typewriter-text .paragraph {
+  color: white;
+  font-size: 64px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+  -webkit-text-stroke: 2px #2FA4E7;
+  text-stroke: 2px #2FA4E7;
+  text-shadow: 
+    -1px -1px 0 #4a9dcd,
+    1px -1px 0 #2FA4E7,
+    -1px 1px 0 #2FA4E7,
+    1px 1px 0 #2FA4E7,
+    0 0 10px rgba(47, 164, 231, 0.8),
+    0 0 20px rgba(47, 164, 231, 0.4);
+  transform: skew(-3deg);
+  font-family: "Comic Sans MS", "ZCOOL KuaiLe", "Varela Round", "Rubik", system-ui;
+}
+
+/* 填写要求输入框样式 */
+.fill-requirement-container {
+  flex: 1;             /* 让其填充剩余空间 */
+  min-width: 200px;    /* 设置最小宽度 */
+  max-width: 400px;    /* 限制最大宽度 */
+  margin: 0;
+}
+
+.fill-requirement-input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  font-size: 0.9rem;
+}
+
+.fill-requirement-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.fill-requirement-input:focus {
+  outline: none;
+  border-color: rgba(100, 108, 255, 0.6);
+  box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
+}
+
+/* 按钮样式优化 */
+.upload-button-wrapper label,
+.download-button,
+.analyze-button {
+  white-space: nowrap; /* 防止文本换行 */
+  display: inline-block;
+  min-width: fit-content;
+}
+
+/* 添加响应式布局支持 */
+@media (max-width: 650px) {
+  .file-upload-container {
+    flex-direction: row;
+    max-width: 500px;
+  }
+  
+  .fill-requirement-container {
+    width: 100%;
+    max-width: 100%;
+  }
+}
